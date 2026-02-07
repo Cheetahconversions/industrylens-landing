@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndustryLens — AI Competitive Intelligence for B2B Teams</title>
+<meta name="description" content="Track competitors across 30+ sources. Get AI-generated battlecards and actionable recommendations. Enterprise intelligence starting at €75/month.">
+<meta property="og:title" content="IndustryLens — Know What To DO When Competitors Move">
+<meta property="og:description" content="AI-powered competitive intelligence for B2B teams. 30+ sources. Actionable battlecards. Starting at €75/month.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://industry-lens.com">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #FC2642;
+    --red-hover: #e81f3a;
+    --blue: #0C51FF;
+    --charcoal: #1D1E21;
+    --white: #FFFFFF;
+    --light-bg: #F9FBFD;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --font-display: 'Sora', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--charcoal);
+    background: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 48px; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display); font-weight: 800; font-size: 22px;
+    color: var(--charcoal); text-decoration: none; letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; align-items: center; gap: 36px; }
+  .nav-links a {
+    font-size: 15px; font-weight: 500; color: var(--gray-600);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--charcoal); }
+
+  /* ---- BUTTONS ---- */
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--red); color: var(--white);
+    font-family: var(--font-body); font-weight: 600; font-size: 15px;
+    padding: 12px 28px; border-radius: 10px; border: none;
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 2px 12px rgba(252,38,66,0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px); background: var(--red-hover);
+    box-shadow: 0 6px 24px rgba(252,38,66,0.35);
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--blue); font-weight: 600; font-size: 15px;
+    text-decoration: none; cursor: pointer; transition: gap 0.2s;
+  }
+  .btn-secondary:hover { gap: 10px; }
+  .arrow-icon { transition: transform 0.2s; }
+  .btn-secondary:hover .arrow-icon { transform: translateX(2px); }
+
+  /* ---- SECTIONS ---- */
+  section { padding: 120px 48px; }
+  .container { max-width: 1180px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-display); font-size: 13px; font-weight: 600;
+    color: var(--red); text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 44px; line-height: 1.15; letter-spacing: -1.5px;
+    color: var(--charcoal); margin-bottom: 20px;
+  }
+  .section-subtitle {
+    font-size: 19px; line-height: 1.65; color: var(--gray-600); max-width: 640px;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    padding-top: 160px; padding-bottom: 100px;
+    background: linear-gradient(168deg, var(--white) 0%, var(--light-bg) 50%, #EEF2FF 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: -200px; right: -300px;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(12,81,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::before {
+    content: ''; position: absolute; bottom: -100px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(252,38,66,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 56px; line-height: 1.08; letter-spacing: -2.5px;
+    color: var(--charcoal); margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--red) 0%, #FF6B7A 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 19px; line-height: 1.7; color: var(--gray-600);
+    margin-bottom: 36px; max-width: 520px;
+  }
+  .hero-ctas { display: flex; align-items: center; gap: 28px; margin-bottom: 40px; }
+  .hero-trust {
+    font-size: 14px; color: var(--gray-400); display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ---- DASHBOARD MOCK ---- */
+  .hero-visual {
+    background: var(--white); border-radius: 16px; padding: 2px;
+    box-shadow: 0 40px 80px rgba(29,30,33,0.10), 0 12px 32px rgba(29,30,33,0.06);
+    overflow: hidden; border: 1px solid var(--gray-200);
+  }
+  .hero-visual-inner { background: var(--white); border-radius: 14px; overflow: hidden; }
+  .dash-bar {
+    height: 38px; background: var(--light-bg); display: flex; align-items: center;
+    padding: 0 14px; gap: 8px; border-bottom: 1px solid var(--gray-200);
+  }
+  .dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dash-dot.r { background: #FF5F57; }
+  .dash-dot.y { background: #FEBC2E; }
+  .dash-dot.g { background: #28C840; }
+  .dash-content { padding: 20px; background: var(--light-bg); }
+  .dash-row { display: flex; gap: 14px; margin-bottom: 14px; }
+  .dash-card {
+    flex: 1; background: var(--white); border-radius: 10px; padding: 16px;
+    border: 1px solid var(--gray-200);
+  }
+  .dash-card-label {
+    font-size: 11px; color: var(--gray-500); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .dash-card-value {
+    font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--charcoal);
+  }
+  .dash-card-value.red { color: var(--red); }
+  .dash-card-value.blue { color: var(--blue); }
+  .dash-card-value.green { color: #10B981; }
+  .dash-insight {
+    background: var(--white); border-radius: 10px; padding: 14px 16px;
+    border: 1px solid var(--gray-200); margin-bottom: 10px;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .dash-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 4px 8px; border-radius: 5px; white-space: nowrap;
+  }
+  .badge-high { background: rgba(252,38,66,0.1); color: var(--red); }
+  .badge-med { background: rgba(255,171,0,0.1); color: #D97706; }
+  .badge-low { background: rgba(16,185,129,0.1); color: #059669; }
+  .dash-insight-text { font-size: 13px; color: var(--charcoal); line-height: 1.5; }
+  .dash-insight-meta { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
+
+  /* ---- PROBLEM ---- */
+  .problem { background: var(--charcoal); color: var(--white); }
+  .problem .section-label { color: var(--red); }
+  .problem .section-title { color: var(--white); max-width: 700px; }
+  .problem .section-subtitle { color: #9CA3AF; margin-bottom: 60px; }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .problem-card {
+    background: #262930; border-radius: 16px; padding: 40px;
+    border: 1px solid #363940; transition: border-color 0.3s;
+  }
+  .problem-card:hover { border-color: var(--red); }
+  .problem-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px; font-size: 28px;
+  }
+  .problem-icon.money { background: rgba(252,38,66,0.12); }
+  .problem-icon.time { background: rgba(12,81,255,0.12); }
+  .problem-card h3 {
+    font-family: var(--font-display); font-size: 24px; font-weight: 700;
+    color: var(--white); margin-bottom: 16px; letter-spacing: -0.5px;
+  }
+  .problem-card p { font-size: 17px; line-height: 1.7; color: #9CA3AF; }
+  .problem-card .stat {
+    display: inline-block; margin-top: 20px; padding: 10px 18px;
+    background: rgba(252,38,66,0.08); border-radius: 8px;
+    font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--red);
+  }
+
+  /* ---- SOLUTION ---- */
+  .solution { background: var(--light-bg); }
+  .solution-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 60px; }
+  .solution-card {
+    background: var(--white); border-radius: 16px; padding: 36px;
+    border: 1px solid var(--gray-200); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .solution-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(29,30,33,0.08); }
+  .solution-num {
+    font-family: var(--font-display); font-size: 48px; font-weight: 800;
+    color: var(--gray-200); margin-bottom: 16px; line-height: 1;
+  }
+  .solution-card h3 {
+    font-family: var(--font-display); font-size: 20px; font-weight: 700;
+    margin-bottom: 12px; letter-spacing: -0.3px;
+  }
+  .solution-card p { font-size: 16px; line-height: 1.65; color: var(--gray-600); }
+
+  /* ---- FEATURES ---- */
+  .features { background: var(--white); }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 60px; }
+  .feature-card {
+    padding: 36px; border-radius: 16px; border: 1px solid var(--gray-200);
+    background: var(--white); transition: border-color 0.2s;
+  }
+  .feature-card:hover { border-color: var(--blue); }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: #EEF2FF;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 22px;
+  }
+  .feature-card h3 {
+    font-family: var(--font-display); font-size: 20px; font-weight: 700;
+    margin-bottom: 10px; letter-spacing: -0.3px;
+  }
+  .feature-card p { font-size: 16px; line-height: 1.65; color: var(--gray-600); }
+  .feature-sources {
+    grid-column: span 2; background: var(--light-bg);
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; padding: 28px; border-radius: 16px;
+    border: 1px solid var(--gray-200); flex-wrap: wrap;
+  }
+  .source-pill {
+    padding: 8px 18px; border-radius: 100px;
+    background: var(--white); border: 1px solid var(--gray-200);
+    font-size: 14px; font-weight: 500; color: var(--gray-600); white-space: nowrap;
+  }
+
+
+
+  /* ---- FAQ ---- */
+  .faq { background: var(--white); }
+  .faq-list { max-width: 760px; margin: 60px auto 0; }
+  .faq-item { border-bottom: 1px solid var(--gray-200); padding: 24px 0; }
+  .faq-q {
+    font-family: var(--font-display); font-size: 18px; font-weight: 600;
+    cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; letter-spacing: -0.3px; user-select: none;
+  }
+  .faq-q::after { content: '+'; font-size: 24px; color: var(--gray-400); font-weight: 400; }
+  .faq-a {
+    font-size: 16px; line-height: 1.7; color: var(--gray-600);
+    margin-top: 14px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+  }
+  .faq-item.open .faq-a { max-height: 300px; }
+  .faq-item.open .faq-q::after { content: '−'; }
+
+  /* ---- FINAL CTA ---- */
+  .final-cta { background: var(--charcoal); text-align: center; padding: 100px 48px; }
+  .final-cta h2 {
+    font-family: var(--font-display); font-size: 44px; font-weight: 700;
+    color: var(--white); letter-spacing: -1.5px; margin-bottom: 16px;
+  }
+  .final-cta p { font-size: 19px; color: #9CA3AF; margin-bottom: 40px; }
+  .final-cta .btn-primary { font-size: 17px; padding: 16px 40px; border-radius: 12px; }
+  .final-below { font-size: 14px; color: var(--gray-500); margin-top: 16px; }
+
+
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 900px) {
+    section { padding: 80px 24px; }
+    nav { padding: 0 24px; }
+    .hero h1 { font-size: 38px; letter-spacing: -1.5px; }
+    .hero { padding-top: 120px; padding-bottom: 60px; }
+    .hero-grid, .problem-grid, .solution-grid, .features-grid {
+      grid-template-columns: 1fr;
+    }
+    .feature-sources { grid-column: span 1; }
+    .section-title { font-size: 32px; }
+    .final-cta h2 { font-size: 32px; }
+    .nav-links a:not(.btn-primary) { display: none; }
+    .hero-ctas { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  ============================================================
+  UTM CONFIGURATION
+  ============================================================
+  All CTA buttons use this base URL. Change the utm_source and
+  utm_campaign values when you duplicate this page for different
+  campaigns. The utm_content value identifies which section of
+  the page the user clicked from.
+
+  Base: https://dashboard.industry-lens.com/signup
+  
+  Example URLs generated:
+  - Nav CTA:     ?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=nav
+  - Hero CTA:    ?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=hero
+  - Pricing CTA: ?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=pricing_growth
+  - Footer CTA:  ?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=final_cta
+  
+  For campaign-specific pages, change utm_campaign:
+  - Product Hunt:  utm_source=producthunt&utm_campaign=ph_launch
+  - Directory:     utm_source=g2&utm_campaign=directory
+  - LinkedIn:      utm_source=linkedin&utm_campaign=outreach_q1
+  ============================================================
+-->
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IndustryLens" style="height: 36px; vertical-align: middle;">
+  </a>
+  <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=nav" class="btn-primary">Start Free Trial</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="section-label animate">AI-Powered Competitive Intelligence</div>
+        <h1 class="animate delay-1">Know What To <em>DO</em> When Competitors Move</h1>
+        <p class="hero-sub animate delay-2">IndustryLens uses AI to track competitors across 30+ sources and delivers actionable battlecards and recommendations. Enterprise-grade intelligence starting at €75/month.</p>
+        <div class="hero-ctas animate delay-3">
+          <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=hero" class="btn-primary">Start Free Trial
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="#how" class="btn-secondary">See How It Works
+            <svg class="arrow-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+        <div class="hero-trust animate delay-4">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l2.2 4.4L15 6.1l-3.5 3.4.8 4.9L8 12.1 3.7 14.4l.8-4.9L1 6.1l4.8-.7L8 1z" fill="#FFAB00"/></svg>
+          30-day free trial · No credit card required · Cancel anytime
+        </div>
+      </div>
+      <div class="animate delay-2">
+        <div class="hero-visual">
+          <div class="hero-visual-inner">
+            <div class="dash-bar">
+              <div class="dash-dot r"></div>
+              <div class="dash-dot y"></div>
+              <div class="dash-dot g"></div>
+              <span style="font-size:12px; color:#6B7280; margin-left:auto; font-weight:500;">IndustryLens Dashboard</span>
+            </div>
+            <div class="dash-content">
+              <div class="dash-row">
+                <div class="dash-card">
+                  <div class="dash-card-label">Active Competitors</div>
+                  <div class="dash-card-value blue">7</div>
+                </div>
+                <div class="dash-card">
+                  <div class="dash-card-label">Insights This Week</div>
+                  <div class="dash-card-value red">12</div>
+                </div>
+                <div class="dash-card">
+                  <div class="dash-card-label">Sources Monitored</div>
+                  <div class="dash-card-value green">30+</div>
+                </div>
+              </div>
+              <div class="dash-insight">
+                <div class="dash-badge badge-high">High</div>
+                <div>
+                  <div class="dash-insight-text">Competitor X changed pricing — removed free tier, increased Pro by 20%</div>
+                  <div class="dash-insight-meta">Pricing · 2 hours ago</div>
+                </div>
+              </div>
+              <div class="dash-insight">
+                <div class="dash-badge badge-med">Medium</div>
+                <div>
+                  <div class="dash-insight-text">New LinkedIn campaign targeting enterprise segment with security messaging</div>
+                  <div class="dash-insight-meta">Ads · Yesterday</div>
+                </div>
+              </div>
+              <div class="dash-insight">
+                <div class="dash-badge badge-low">Low</div>
+                <div>
+                  <div class="dash-insight-text">Blog post published: "2026 State of B2B Marketing" — thought leadership play</div>
+                  <div class="dash-insight-meta">Content · 2 days ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Competitive Intelligence Has Two Problems</h2>
+    <p class="section-subtitle">Most B2B teams either can't afford CI tools or waste hours doing it manually. Neither option is sustainable.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon money">💰</div>
+        <h3>It's Stupidly Expensive</h3>
+        <p>Enterprise CI tools like Klue and Crayon cost €20K–€100K/year. That's not a typo. Great for Fortune 500, useless for everyone else.</p>
+        <div class="stat">€20K–€100K/year for enterprise tools</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon time">⏱️</div>
+        <h3>It's Painfully Manual</h3>
+        <p>Your marketing team spends 15+ hours every month checking competitor websites, social media, review sites, and ad libraries. Scattered across bookmarks and spreadsheets nobody reads.</p>
+        <div class="stat">15+ hours/month of manual research</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="solution" id="how">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">From Setup to Insights in 5 Minutes</h2>
+    <p class="section-subtitle">No onboarding calls. No 6-week implementation. Just add your competitors and let IndustryLens do the rest.</p>
+    <div class="solution-grid">
+      <div class="solution-card">
+        <div class="solution-num">01</div>
+        <h3>Add Your Competitors</h3>
+        <p>Enter competitor names or URLs. IndustryLens automatically discovers their social profiles, ad accounts, review pages, and more across 30+ data sources.</p>
+      </div>
+      <div class="solution-card">
+        <div class="solution-num">02</div>
+        <h3>AI Monitors Everything</h3>
+        <p>Our agentic AI tracks changes across websites, social media, paid campaigns, review sites, and job postings. Continuously. Automatically.</p>
+      </div>
+      <div class="solution-card">
+        <div class="solution-num">03</div>
+        <h3>Get Actionable Intelligence</h3>
+        <p>Receive weekly email digests with prioritised insights, AI-generated battlecards, and specific recommendations on what to do — not just what happened.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything You Need to Track Competitors</h2>
+    <p class="section-subtitle">Enterprise-grade competitive intelligence without the enterprise price tag or complexity.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚔️</div>
+        <h3>AI Battlecards</h3>
+        <p>Auto-generated competitive battlecards comparing strengths, weaknesses, positioning, and pricing. Always up to date, always ready for your next sales call.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📧</div>
+        <h3>Weekly Email Digests</h3>
+        <p>The most important competitor moves delivered to your inbox every week. Prioritised by urgency and impact so you focus on what matters.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Actionable Recommendations</h3>
+        <p>Don't just know what competitors did — know what to do about it. AI-generated recommendations tailored to your role and team.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Connected Storylines</h3>
+        <p>Individual changes become strategic narratives. See how a pricing change, new hire, and ad campaign form a single competitive strategy.</p>
+      </div>
+      <div class="feature-sources">
+        <span style="font-weight:600; color: var(--charcoal); margin-right: 8px;">30+ Sources:</span>
+        <span class="source-pill">Websites</span>
+        <span class="source-pill">LinkedIn</span>
+        <span class="source-pill">Facebook</span>
+        <span class="source-pill">Instagram</span>
+        <span class="source-pill">X / Twitter</span>
+        <span class="source-pill">YouTube</span>
+        <span class="source-pill">Google Ads</span>
+        <span class="source-pill">Meta Ads</span>
+        <span class="source-pill">G2</span>
+        <span class="source-pill">Capterra</span>
+        <span class="source-pill">Trustpilot</span>
+        <span class="source-pill">Glassdoor</span>
+        <span class="source-pill">Google News</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-label" style="text-align:center">FAQ</div>
+    <h2 class="section-title" style="text-align:center">Common Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q">How is this so much cheaper than Klue or Crayon?</div>
+        <div class="faq-a">Enterprise CI tools bundle extensive onboarding, dedicated analysts, and enterprise contracts that most teams don't need. We focused on the core value — automated monitoring and AI-generated insights — and made it self-serve. Same intelligence, fraction of the cost.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What's included in the free trial?</div>
+        <div class="faq-a">Full access to all features for 30 days. No credit card required. Add your competitors, get insights, explore battlecards — everything works from day one.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What data sources do you monitor?</div>
+        <div class="faq-a">We track 30+ sources including competitor websites, LinkedIn, Facebook, Instagram, X/Twitter, YouTube, Google Ads, Meta Ads, LinkedIn Ads, G2, Capterra, Trustpilot, Glassdoor, Google News, and more being added regularly.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How is this different from setting up Google Alerts?</div>
+        <div class="faq-a">Google Alerts only monitor news mentions. IndustryLens tracks actual changes across websites, ad campaigns, social media strategy shifts, pricing changes, review sentiment, and job postings — then tells you what to do about it with AI-generated recommendations.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What's the difference between the tiers?</div>
+        <div class="faq-a">The main difference is competitor count: Starter (€75) = 3 competitors, Growth (€200) = 7 competitors, Professional (€250) = 15 competitors. All tiers get the same core features — AI battlecards, weekly digests, raw data access, and Slack integration.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel anytime?</div>
+        <div class="faq-a">Yes. All plans are month-to-month with no annual contracts. Cancel anytime from your dashboard — no calls, no hoops.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Ready to Stop Being Surprised<br>by Competitors?</h2>
+  <p>Start your free 30-day trial. No credit card required.</p>
+  <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&utm_medium=web&utm_campaign=main&utm_content=final_cta" class="btn-primary">Start Free Trial
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+  </a>
+  <p class="final-below">Join B2B teams already tracking smarter</p>
+</section>
+
+
+
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    document.querySelectorAll('.faq-item').forEach(i => { if (i !== item) i.classList.remove('open'); });
+    item.classList.toggle('open');
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('animate');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.problem-card, .solution-card, .feature-card, .pricing-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
