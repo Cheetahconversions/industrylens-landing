@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndustryLens — Competitive Intelligence for B2B Teams</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #FC2642; --blue: #0C51FF; --dk: #1D1E21; --wh: #FFFFFF;
+            --bg: #F9FBFD; --g1: #F3F5F8; --g2: #E5E8ED; --g3: #C5CAD3; --g4: #8A919E; --g5: #626872;
+            --grn: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--dk); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+
+        /* NAV */
+        .nav { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; gap: 10px; background: var(--wh); border: 1px solid var(--g2); border-radius: 60px; padding: 6px 10px; box-shadow: 0 8px 32px rgba(0,0,0,.1); }
+        .nav button { width: 34px; height: 34px; border: none; border-radius: 50%; background: var(--g1); color: var(--dk); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .2s; }
+        .nav button:hover { background: var(--dk); color: var(--wh); }
+        .nav .ctr { font-size: 13px; font-weight: 600; color: var(--g4); min-width: 48px; text-align: center; }
+
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 16px 90px; }
+
+        /* SLIDE */
+        .slide { display: none; background: var(--wh); border-radius: 16px; width: 100%; height: 700px; padding: 36px 48px; position: relative; overflow: hidden; border: 1px solid var(--g2); box-shadow: 0 1px 3px rgba(0,0,0,.04); flex-direction: column; }
+        .slide.active { display: flex; }
+
+        /* HEADER */
+        .sh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
+        .logo { display: flex; align-items: center; gap: 9px; }
+        .logo img { height: 28px; width: auto; }
+        .logo b { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--dk); }
+        .sl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--g4); }
+
+        /* TYPE */
+        .lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--red); margin-bottom: 5px; }
+        .t { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--dk); }
+        .t .a { color: var(--red); }
+        .sub { font-size: 15px; color: var(--g5); line-height: 1.5; max-width: 520px; margin-top: 6px; }
+
+        /* CARD */
+        .card { background: var(--bg); border: 1px solid var(--g2); border-radius: 10px; padding: 16px 14px; }
+        .card h4 { font-size: 14px; font-weight: 700; color: var(--dk); margin-bottom: 3px; }
+        .card p { font-size: 12.5px; color: var(--g5); line-height: 1.45; }
+
+        /* HERO */
+        .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+        .badges { display: flex; gap: 9px; }
+        .badge { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 40px; background: var(--g1); color: var(--g5); border: 1px solid var(--g2); }
+        .badge.r { background: rgba(252,38,66,.06); color: var(--red); border-color: rgba(252,38,66,.15); }
+        .htitle { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 50px; font-weight: 800; line-height: 1.06; letter-spacing: -.03em; color: var(--dk); max-width: 640px; }
+        .htitle .a { color: var(--red); }
+        .hsub { font-size: 18px; color: var(--g5); line-height: 1.5; max-width: 580px; }
+        .cta { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--red); color: var(--wh); border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; width: fit-content; transition: .2s; text-decoration: none; }
+        .cta:hover { transform: translateY(-1px); }
+
+        /* STAT */
+        .sc { background: var(--bg); border: 1px solid var(--g2); border-radius: 10px; padding: 20px 16px; }
+        .sc .n { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; color: var(--red); }
+        .sc h4 { font-size: 14px; font-weight: 700; color: var(--dk); margin: 3px 0; }
+        .sc p { font-size: 12.5px; color: var(--g5); line-height: 1.45; }
+
+        /* COMPARE */
+        .cc { border-radius: 10px; padding: 20px 16px; border: 1px solid var(--g2); background: var(--bg); height: 100%; }
+        .cc.dark { background: var(--dk); color: var(--wh); border-color: var(--dk); }
+        .cc h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+        .cc .pt { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+        .cc .pt.r { color: var(--red); } .cc .pt.m { color: var(--g4); }
+        .cc ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+        .cc ul li { font-size: 13px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4; }
+        .ic { flex-shrink: 0; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; margin-top: 1px; }
+        .ix { background: rgba(252,38,66,.12); color: var(--red); }
+        .io { background: rgba(16,185,129,.15); color: var(--grn); }
+        .dark .io { background: rgba(16,185,129,.25); }
+
+        /* STEP */
+        .stp { text-align: center; padding: 20px 14px; background: var(--bg); border: 1px solid var(--g2); border-radius: 10px; }
+        .sn { width: 40px; height: 40px; background: var(--red); color: var(--wh); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; margin: 0 auto 10px; }
+        .stp h4 { font-size: 15px; font-weight: 700; color: var(--dk); margin-bottom: 5px; }
+        .stp p { font-size: 13px; color: var(--g5); line-height: 1.45; }
+
+        /* DS BOX */
+        .db { background: var(--bg); border: 1px solid var(--g2); border-radius: 10px; padding: 16px 14px; }
+        .dct { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--red); margin-bottom: 7px; }
+        .dl { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .dl li { font-size: 13px; color: var(--g5); line-height: 1.4; padding-left: 12px; position: relative; }
+        .dl li::before { content: ''; position: absolute; left: 0; top: 7px; width: 4px; height: 4px; background: var(--g3); border-radius: 50%; }
+
+        /* ROLE */
+        .rc { border-radius: 10px; padding: 18px 14px; border: 1px solid var(--g2); background: var(--bg); height: 100%; }
+        .rc h4 { font-size: 14px; font-weight: 700; color: var(--dk); margin-bottom: 2px; }
+        .rc .rs { font-size: 11px; color: var(--g4); margin-bottom: 8px; }
+        .rc ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+        .rc ul li { font-size: 12.5px; color: var(--g5); padding-left: 12px; position: relative; line-height: 1.4; }
+        .rc ul li::before { content: ''; position: absolute; left: 0; top: 6px; width: 4px; height: 4px; background: var(--red); border-radius: 50%; }
+
+        /* PRICING */
+        .pc { border-radius: 10px; padding: 16px 12px; border: 1px solid var(--g2); background: var(--bg); display: flex; flex-direction: column; height: 100%; }
+        .pc.pop { border: 2px solid var(--red); background: var(--wh); position: relative; }
+        .popt { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--red); color: var(--wh); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 10px; border-radius: 14px; white-space: nowrap; }
+        .pc .tn { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--g4); margin-bottom: 2px; }
+        .pc .pr { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; color: var(--dk); line-height: 1; }
+        .pc .pr span { font-size: 13px; font-weight: 500; color: var(--g4); }
+        .pc .annual { font-size: 10px; color: var(--g4); margin-bottom: 6px; }
+        .pc .pd { font-size: 10px; color: var(--g5); margin-bottom: 8px; font-style: italic; }
+        .pc ul { list-style: none; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+        .pc ul li { font-size: 11px; color: var(--g5); display: flex; align-items: flex-start; gap: 4px; line-height: 1.3; }
+        .pc ul li::before { content: '✓'; color: var(--grn); font-weight: 700; flex-shrink: 0; font-size: 10px; }
+        .pb { display: block; text-align: center; padding: 7px; border-radius: 7px; font-size: 11px; font-weight: 600; text-decoration: none; margin-top: 8px; transition: .2s; }
+        .pbo { background: var(--wh); color: var(--dk); border: 1px solid var(--g2); }
+        .pbf { background: var(--red); color: var(--wh); border: 1px solid var(--red); }
+        .pf { text-align: center; margin-top: 10px; font-size: 11px; color: var(--g4); }
+
+        /* TABLE */
+        .ct { width: 100%; border-collapse: collapse; }
+        .ct th { text-align: left; padding: 10px 14px; font-weight: 700; border-bottom: 2px solid var(--g2); color: var(--dk); font-size: 13px; }
+        .ct th:first-child { width: 24%; }
+        .ct th.h { background: rgba(252,38,66,.04); color: var(--red); border-radius: 8px 8px 0 0; }
+        .ct td { padding: 9px 14px; border-bottom: 1px solid var(--g1); color: var(--g5); font-size: 13px; }
+        .ct td.h { background: rgba(252,38,66,.03); color: var(--dk); font-weight: 600; }
+        .ct tr:last-child td { border-bottom: none; }
+
+        /* CTA CENTER */
+        .ctac { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .ci { margin-top: 32px; font-size: 15px; color: var(--g4); line-height: 2; }
+        .ci a { color: var(--blue); text-decoration: none; font-weight: 500; }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <button onclick="pv()">←</button>
+    <div class="ctr"><span id="cn">1</span> / <span id="tt">11</span></div>
+    <button onclick="nx()">→</button>
+</div>
+<div class="wrap">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S1 — HERO                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide active" id="s1">
+    <div class="sh">
+        <div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IndustryLens"><b>IndustryLens</b></div>
+        <div class="sl">Product Overview</div>
+    </div>
+    <div class="hero">
+        <div class="badges">
+            <span class="badge r">AI-Powered</span>
+            <span class="badge">Competitive Intelligence</span>
+            <span class="badge">B2B Teams</span>
+        </div>
+        <h1 class="htitle">Know What To <span class="a">DO</span> When Competitors Move</h1>
+        <p class="hsub">Automated competitive intelligence that tracks competitors across 20+ data sources and delivers actionable insights — starting at €59/month vs €20K+/year for enterprise tools.</p>
+        <a href="https://dashboard.industry-lens.com/signup" class="cta">Start Free Trial →</a>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S2 — PROBLEM · 4 COLUMNS                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s2">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">The Problem</div></div>
+    <div class="lbl">Why This Matters</div>
+    <h2 class="t">Competitive Intelligence Is <span class="a">Broken</span></h2>
+    <p class="sub">Most B2B teams are flying blind or drowning in expensive tools that still require hours of manual work.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin-top:24px; flex:1; align-content:start;">
+        <div class="sc"><div class="n">10-15h</div><h4>Wasted Monthly</h4><p>Manual competitive research that's inconsistent and quickly outdated.</p></div>
+        <div class="sc"><div class="n">€20K+</div><h4>Enterprise Costs</h4><p>Klue, Crayon, Kompyte charge €20K–€100K/year — out of reach for most.</p></div>
+        <div class="sc"><div class="n">80%</div><h4>Intel Goes Stale</h4><p>Insights scattered across spreadsheets, Slack, and inboxes. Outdated before use.</p></div>
+        <div class="sc"><div class="n">0</div><h4>Actionable Advice</h4><p>Most tools tell you what happened. None tell you what to DO about it.</p></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S3 — COMPARE · 3 COLUMNS · IndustryLens FIRST     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s3">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Market Gap</div></div>
+    <div class="lbl">Current Solutions Fail</div>
+    <h2 class="t">Enterprise CI vs <span class="a">IndustryLens</span></h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:24px; flex:1; align-content:start;">
+        <div class="cc dark"><h4 style="color:var(--wh)">IndustryLens</h4><div class="pt r">€59–249/mo</div><ul><li><span class="ic io">✓</span>Setup in 5 minutes</li><li><span class="ic io">✓</span>Fully automated monitoring</li><li><span class="ic io">✓</span>Curated weekly insights</li><li><span class="ic io">✓</span>Actionable recommendations</li><li><span class="ic io">✓</span>AI battlecards included</li><li><span class="ic io">✓</span>Cancel anytime</li></ul></div>
+        <div class="cc"><h4>Enterprise CI Tools</h4><div class="pt m">€20K–100K/yr</div><ul><li><span class="ic ix">✕</span>6-8 week implementation</li><li><span class="ic ix">✕</span>Still requires manual work</li><li><span class="ic ix">✕</span>Alert fatigue, complex UI</li><li><span class="ic ix">✕</span>Dedicated analyst needed</li><li><span class="ic ix">✕</span>12-month contracts</li><li><span class="ic ix">✕</span>€20K+ minimum spend</li></ul></div>
+        <div class="cc"><h4>Manual Research</h4><div class="pt m">Free</div><ul><li><span class="ic ix">✕</span>Inconsistent across team</li><li><span class="ic ix">✕</span>10-15+ hours per month</li><li><span class="ic ix">✕</span>No systematic approach</li><li><span class="ic ix">✕</span>Quickly becomes outdated</li><li><span class="ic ix">✕</span>No recommendations</li><li><span class="ic ix">✕</span>Always reactive, never proactive</li></ul></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S4 — INTRODUCING · 2 COLUMNS                      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s4">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">The Solution</div></div>
+    <div class="lbl">Introducing IndustryLens</div>
+    <h2 class="t">Automated CI for <span class="a">B2B Teams</span></h2>
+    <p class="sub">AI tracks competitors automatically and delivers clear, actionable insights so your team can focus on strategy.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; flex:1; align-content:start;">
+        <div class="card"><h4>AI Battlecards</h4><p>Auto-generated competitor profiles with strengths, weaknesses, and prioritised actions. Updated weekly.</p></div>
+        <div class="card"><h4>Weekly Email Digests</h4><p>Curated strategic insights delivered to your inbox every week — no dashboard required.</p></div>
+        <div class="card"><h4>Actionable Recommendations</h4><p>Every insight comes with a recommended action. Know what to DO about it, not just what happened.</p></div>
+        <div class="card"><h4>Connected Storylines</h4><p>AI connects signals across sources to surface patterns, trends, and predict competitor moves.</p></div>
+        <div class="card"><h4>Slack Integration</h4><p>Share battlecards and insights directly to channels where your team already works.</p></div>
+        <div class="card"><h4>Intuitive Dashboard</h4><p>Browse raw data, filter by competitor or category. Full transparency into every data point.</p></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S5 — HOW IT WORKS · 3 COLUMNS                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s5">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Process</div></div>
+    <div class="lbl">Simple 3-Step Process</div>
+    <h2 class="t">Up and Running in <span class="a">Minutes</span>, Not Weeks</h2>
+    <p class="sub">No consultants, no complex onboarding, no weeks of waiting. Just add competitors and go.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:32px; flex:1; align-content:start;">
+        <div class="stp"><div class="sn">1</div><h4>Pick Your Competitors</h4><p>Tell us who you want to track. Enter their websites and you're done. 5-minute setup.</p></div>
+        <div class="stp"><div class="sn">2</div><h4>We Monitor Everything</h4><p>IndustryLens automatically tracks 20+ signals — ads, social, reviews, website changes, content, and more.</p></div>
+        <div class="stp"><div class="sn">3</div><h4>Get Insights That Matter</h4><p>Receive weekly digests via email and Slack with only the insights your team needs to act on.</p></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S6 — DATA SOURCES · 4 COLUMNS WITH BOXES          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s6">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Coverage</div></div>
+    <div class="lbl">Comprehensive Coverage</div>
+    <h2 class="t"><span class="a">20+</span> Data Sources Tracked Automatically</h2>
+    <p class="sub">Instead of checking competitors across dozens of platforms, IndustryLens consolidates everything into focused, verified updates.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin-top:22px; flex:1; align-content:start;">
+        <div class="db"><div class="dct">Social Media</div><ul class="dl"><li>LinkedIn posts</li><li>X / Twitter</li><li>Instagram</li><li>Facebook</li><li>YouTube videos</li></ul></div>
+        <div class="db"><div class="dct">Paid Advertising</div><ul class="dl"><li>Google Ads</li><li>Meta Ads</li><li>LinkedIn Ads</li></ul></div>
+        <div class="db"><div class="dct">Reviews & Ratings</div><ul class="dl"><li>G2</li><li>Capterra</li><li>Trustpilot</li><li>Glassdoor</li></ul></div>
+        <div class="db"><div class="dct">Web & News</div><ul class="dl"><li>Websites & blogs</li><li>Pricing pages</li><li>Google News</li><li>Job postings</li><li>Newsletters</li></ul></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S7 — FEATURES · 2 COLUMNS                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s7">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Features</div></div>
+    <div class="lbl">Key Features</div>
+    <h2 class="t">Intelligence, <span class="a">Not Just Information</span></h2>
+    <p class="sub">Every feature is included in every plan. No feature gating, no hidden upgrades.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; flex:1; align-content:start;">
+        <div class="card"><h4>AI Battlecards</h4><p>Auto-generated profiles with positioning, strengths, weaknesses, and recommended actions. Updated weekly.</p></div>
+        <div class="card"><h4>Cross-Competitor Insights</h4><p>Spot patterns when multiple competitors converge on the same strategy or market move.</p></div>
+        <div class="card"><h4>Raw Data Library</h4><p>Browse actual competitor ads, posts, reviews, and website changes. Full evidence behind every insight.</p></div>
+        <div class="card"><h4>Role-Specific Views</h4><p>Marketing, Product, and Sales each see what's relevant to their function. No noise, just signal.</p></div>
+        <div class="card"><h4>Weekly Digests</h4><p>Curated insights via email and Slack. Your team stays informed without logging into anything.</p></div>
+        <div class="card"><h4>Strategic Recommendations</h4><p>Every insight includes a suggested action. Move from "what happened" to "what to do next."</p></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S8 — ROLES · 3 COLUMNS                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s8">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Use Cases</div></div>
+    <div class="lbl">Intelligence Tailored to How You Work</div>
+    <h2 class="t">Empowering Every Role with <span class="a">Competitive Edge</span></h2>
+    <p class="sub">Whether you're shaping campaigns, planning roadmaps, or closing deals — IndustryLens delivers the context your role needs.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:18px; flex:1; align-content:start;">
+        <div class="rc"><h4>Marketing Teams</h4><div class="rs">Campaign Intelligence & Positioning</div><ul><li>Track competitor ad campaigns & messaging</li><li>Monitor social media strategy changes</li><li>Get counter-positioning recommendations</li><li>Identify content gaps and opportunities</li><li>Spot messaging shifts before they gain traction</li></ul></div>
+        <div class="rc"><h4>Product Teams</h4><div class="rs">Feature Gaps & Roadmap Intel</div><ul><li>Track competitor feature launches</li><li>Monitor customer review sentiment</li><li>Spot pricing & packaging changes</li><li>Inform roadmap with competitive context</li><li>Identify integration trends across competitors</li></ul></div>
+        <div class="rc"><h4>Sales Teams</h4><div class="rs">Deal Intelligence & Battlecards</div><ul><li>Up-to-date battlecards for every competitor</li><li>Win/loss pattern insights from reviews</li><li>Competitor weakness talking points</li><li>Real-time alerts on pricing changes</li><li>Counter competitor offers with fresh data</li></ul></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S9 — PRICING · 4 COLUMNS (from homepage doc)      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s9">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Pricing</div></div>
+    <div class="lbl">Enterprise Intelligence, SMB Pricing</div>
+    <h2 class="t">Simple, <span class="a">Transparent</span> Pricing</h2>
+    <p class="sub" style="max-width:600px;">Every plan includes all core features — AI battlecards, cross-competitor insights, weekly digests, Slack integration, raw data access, and full dashboard.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:14px; flex:1; align-content:start;">
+        <div class="pc">
+            <div class="tn">Starter</div>
+            <div class="pr">€59<span>/mo</span></div>
+            <div class="annual">€49/mo billed annually</div>
+            <div class="pd">Solo marketers & small teams</div>
+            <ul><li>Up to 3 competitors</li><li>1 team seat</li><li>30-day history</li><li>All core features</li><li>Standard email support</li></ul>
+            <a href="#" class="pb pbo">Start Free Trial</a>
+        </div>
+        <div class="pc pop">
+            <div class="popt">Most Popular</div>
+            <div class="tn">Growth</div>
+            <div class="pr">€149<span>/mo</span></div>
+            <div class="annual">€119/mo billed annually</div>
+            <div class="pd">Growing companies</div>
+            <ul><li>Up to 7 competitors</li><li>3 team seats</li><li>90-day history</li><li>All core features</li><li>Priority email support</li></ul>
+            <a href="#" class="pb pbf">Start Free Trial</a>
+        </div>
+        <div class="pc">
+            <div class="tn">Professional</div>
+            <div class="pr">€249<span>/mo</span></div>
+            <div class="annual">€199/mo billed annually</div>
+            <div class="pd">Established teams</div>
+            <ul><li>Up to 15 competitors</li><li>10 team seats</li><li>12-month history</li><li>All core features</li><li>Priority email support</li></ul>
+            <a href="#" class="pb pbo">Start Free Trial</a>
+        </div>
+        <div class="pc">
+            <div class="tn">Enterprise</div>
+            <div class="pr" style="font-size:22px;">Custom</div>
+            <div class="annual">Contact us</div>
+            <div class="pd">Large organisations</div>
+            <ul><li>Unlimited competitors</li><li>Unlimited seats</li><li>Full history</li><li>API access + CRM</li><li>Dedicated account manager</li></ul>
+            <a href="#" class="pb pbo">Contact Sales</a>
+        </div>
+    </div>
+    <div class="pf">30-day free trial · No credit card required · Cancel anytime · Save ~20% with annual billing</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S10 — COMPARISON TABLE                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s10">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div><div class="sl">Comparison</div></div>
+    <div class="lbl">Why IndustryLens</div>
+    <h2 class="t">How We <span class="a">Compare</span></h2>
+    <p class="sub">Enterprise-grade intelligence at a fraction of the cost and setup time.</p>
+    <table class="ct" style="margin-top:28px;">
+        <thead><tr><th></th><th class="h">IndustryLens</th><th>Enterprise CI</th><th>Manual Research</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Price</strong></td><td class="h">€59–249/month</td><td>€20K–100K/year</td><td>Free (time costly)</td></tr>
+            <tr><td><strong>Setup</strong></td><td class="h">5 minutes</td><td>6–12 weeks</td><td>Ongoing</td></tr>
+            <tr><td><strong>AI Battlecards</strong></td><td class="h">✓ Included in all plans</td><td>✓ Manual setup</td><td>✕</td></tr>
+            <tr><td><strong>Recommendations</strong></td><td class="h">✓ Every insight</td><td>Limited</td><td>✕</td></tr>
+            <tr><td><strong>Raw Data Access</strong></td><td class="h">✓ Full library</td><td>Limited</td><td>✓ Manual</td></tr>
+            <tr><td><strong>Time Required</strong></td><td class="h">Minutes/week</td><td>Hours/week</td><td>10–15 hrs/month</td></tr>
+            <tr><td><strong>Contract</strong></td><td class="h">Cancel anytime</td><td>12-month minimum</td><td>N/A</td></tr>
+            <tr><td><strong>Onboarding</strong></td><td class="h">Self-serve</td><td>Dedicated consultant</td><td>N/A</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- S11 — CTA                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide" id="s11">
+    <div class="sh"><div class="logo"><img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IL"><b>IndustryLens</b></div></div>
+    <div class="ctac">
+        <div class="lbl" style="font-size:13px;">Ready to Get Started?</div>
+        <h2 class="t" style="font-size:46px; line-height:1.1; margin-bottom:10px;">Stop Guessing.<br>Start <span class="a">Knowing</span>.</h2>
+        <p style="font-size:19px; color:var(--g5); max-width:480px; line-height:1.55;">See what your competitors are doing this week. Start your free trial — no credit card required.</p>
+        <a href="https://dashboard.industry-lens.com/signup" class="cta" style="font-size:17px; padding:16px 36px; margin-top:24px;">Start Your Free Trial →</a>
+        <div class="ci">
+            <p><a href="mailto:support@industry-lens.com">support@industry-lens.com</a></p>
+            <p><a href="https://industry-lens.com">industry-lens.com</a></p>
+        </div>
+    </div>
+</div>
+
+</div>
+<script>
+let c=1;const t=11;
+function sw(n){document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');document.getElementById('cn').textContent=n;window.scrollTo({top:0,behavior:'smooth'});}
+function nx(){if(c<t){c++;sw(c);}}
+function pv(){if(c>1){c--;sw(c);}}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nx();}if(e.key==='ArrowLeft'){e.preventDefault();pv();}});
+</script>
+</body>
+</html>
