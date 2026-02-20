@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IndustryLens &#8212; AI Competitive Intelligence for B2B Teams</title>
-<meta name="description" content="Track competitors across 30+ sources. Get AI-generated battlecards and actionable recommendations. Enterprise intelligence starting at &#8364;75/month.">
+<meta name="description" content="Track competitors across 30+ sources. Get AI-generated battlecards and actionable recommendations for B2B marketing teams. Free 30-day trial.">
 <meta property="og:title" content="IndustryLens &#8212; Know What To DO When Competitors Move">
-<meta property="og:description" content="AI-powered competitive intelligence for B2B teams. 30+ sources. Actionable battlecards. Starting at &#8364;75/month.">
+<meta property="og:description" content="AI-powered competitive intelligence for B2B marketing teams. 30+ sources. Actionable battlecards. Free 30-day trial.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://industry-lens.com">
 <meta name="twitter:card" content="summary_large_image">
@@ -105,6 +105,22 @@
   .feature-card p { font-size: 16px; line-height: 1.65; color: var(--gray-600); }
   .feature-sources { grid-column: span 2; background: var(--light-bg); display: flex; align-items: center; justify-content: center; gap: 20px; padding: 28px; border-radius: 16px; border: 1px solid var(--gray-200); flex-wrap: wrap; }
   .source-pill { padding: 8px 18px; border-radius: 100px; background: var(--white); border: 1px solid var(--gray-200); font-size: 14px; font-weight: 500; color: var(--gray-600); white-space: nowrap; }
+  .pricing { background: var(--light-bg); }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .pricing-card { background: var(--white); border-radius: 16px; padding: 36px; border: 1px solid var(--gray-200); position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(29,30,33,0.08); }
+  .pricing-card.featured { border: 2px solid var(--red); }
+  .pricing-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--red); color: var(--white); font-family: var(--font-display); font-size: 12px; font-weight: 700; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
+  .pricing-tier { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--charcoal); margin-bottom: 8px; letter-spacing: -0.3px; }
+  .pricing-price { font-family: var(--font-display); font-size: 48px; font-weight: 800; color: var(--charcoal); letter-spacing: -2px; margin-bottom: 4px; }
+  .pricing-price span { font-size: 18px; font-weight: 500; color: var(--gray-500); letter-spacing: 0; }
+  .pricing-note { font-size: 14px; color: var(--gray-500); margin-bottom: 28px; }
+  .pricing-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
+  .pricing-included { font-size: 12px; color: var(--gray-400); margin-top: 20px; line-height: 1.6; }
+  .pricing-features { list-style: none; margin-bottom: 28px; }
+  .pricing-features li { font-size: 15px; color: var(--gray-600); padding: 8px 0; border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 10px; }
+  .pricing-features li::before { content: '\2713'; color: var(--red); font-weight: 700; font-size: 14px; }
+  .pricing-features li em { font-style: normal; font-size: 12px; color: var(--gray-400); }
   .faq { background: var(--white); }
   .faq-list { max-width: 760px; margin: 60px auto 0; }
   .faq-item { border-bottom: 1px solid var(--gray-200); padding: 24px 0; }
@@ -125,11 +141,12 @@
     section { padding: 80px 24px; } nav { padding: 0 24px; }
     .hero h1 { font-size: 38px; letter-spacing: -1.5px; }
     .hero { padding-top: 120px; padding-bottom: 60px; }
-    .hero-grid, .problem-grid, .solution-grid, .features-grid { grid-template-columns: 1fr; }
+    .hero-grid, .problem-grid, .solution-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
     .feature-sources { grid-column: span 1; }
     .section-title { font-size: 32px; } .final-cta h2 { font-size: 32px; }
     .nav-links a:not(.btn-primary) { display: none; }
     .hero-ctas { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .pricing-card.featured { margin-top: 0; }
   }
 </style>
 </head>
@@ -138,7 +155,13 @@
   <a href="#" class="nav-logo">
     <img src="https://lmgzpvpkztnmqipzrnmf.supabase.co/storage/v1/object/public/favicons/Industry%20Lens%20logo%20transparent.png" alt="IndustryLens" style="height: 36px; vertical-align: middle;">
   </a>
-  <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&amp;utm_medium=web&amp;utm_campaign=main&amp;utm_content=nav" class="btn-primary">Start Free Trial</a>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&amp;utm_medium=web&amp;utm_campaign=main&amp;utm_content=nav" class="btn-primary">Start Free Trial</a>
+  </div>
 </nav>
 <section class="hero">
   <div class="container">
@@ -146,7 +169,7 @@
       <div>
         <div class="section-label animate">AI-Powered Competitive Intelligence</div>
         <h1 class="animate delay-1">Know What To <em>DO</em> When Competitors Move</h1>
-        <p class="hero-sub animate delay-2">IndustryLens uses AI to track competitors across 30+ sources and delivers actionable battlecards and recommendations. Enterprise-grade intelligence starting at &#8364;75/month.</p>
+        <p class="hero-sub animate delay-2">IndustryLens uses AI to track competitors across 30+ sources and delivers actionable battlecards and recommendations. Built for B2B marketing teams who need to move fast.</p>
         <div class="hero-ctas animate delay-3">
           <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&amp;utm_medium=web&amp;utm_campaign=main&amp;utm_content=hero" class="btn-primary">Start Free Trial
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -233,6 +256,58 @@
     </div>
   </div>
 </section>
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-label" style="text-align:center">Pricing</div>
+    <h2 class="section-title" style="text-align:center">Simple, Transparent Pricing</h2>
+    <p class="section-subtitle" style="text-align:center; margin: 0 auto 60px;">Enterprise-grade intelligence without the enterprise price tag.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-desc">For solo marketers &amp; small teams</div>
+        <div class="pricing-price">&#8364;59<span>/month</span></div>
+        <div class="pricing-note">Monthly subscription</div>
+        <ul class="pricing-features">
+          <li>Up to <strong>3 competitors</strong></li>
+          <li>1 team seat</li>
+          <li>30-day history</li>
+          <li>Standard email support</li>
+        </ul>
+        <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&amp;utm_medium=web&amp;utm_campaign=main&amp;utm_content=pricing_starter" class="btn-primary" style="width:100%; justify-content:center;">Start for Free</a>
+        <div class="pricing-included">All plans include: AI battlecards &#183; Cross-competitor insights &#183; Weekly email digests &#183; Slack integration &#183; Raw data library &#183; Full dashboard</div>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-tier">Growth</div>
+        <div class="pricing-desc">Best for growing companies</div>
+        <div class="pricing-price">&#8364;149<span>/month</span></div>
+        <div class="pricing-note">Monthly subscription</div>
+        <ul class="pricing-features">
+          <li>Up to <strong>7 competitors</strong></li>
+          <li><strong>3 team seats</strong></li>
+          <li><strong>90-day history</strong></li>
+          <li><strong>Priority email support</strong></li>
+        </ul>
+        <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&amp;utm_medium=web&amp;utm_campaign=main&amp;utm_content=pricing_growth" class="btn-primary" style="width:100%; justify-content:center;">Start for Free</a>
+        <div class="pricing-included">All plans include: AI battlecards &#183; Cross-competitor insights &#183; Weekly email digests &#183; Slack integration &#183; Raw data library &#183; Full dashboard</div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Professional</div>
+        <div class="pricing-desc">Best for established teams</div>
+        <div class="pricing-price">&#8364;249<span>/month</span></div>
+        <div class="pricing-note">Monthly subscription</div>
+        <ul class="pricing-features">
+          <li>Up to <strong>15 competitors</strong></li>
+          <li><strong>10 team seats</strong></li>
+          <li><strong>12-month history</strong></li>
+          <li>Priority email support</li>
+        </ul>
+        <a href="https://dashboard.industry-lens.com/signup?utm_source=landing_page&amp;utm_medium=web&amp;utm_campaign=main&amp;utm_content=pricing_pro" class="btn-primary" style="width:100%; justify-content:center;">Start for Free</a>
+        <div class="pricing-included">All plans include: AI battlecards &#183; Cross-competitor insights &#183; Weekly email digests &#183; Slack integration &#183; Raw data library &#183; Full dashboard</div>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="faq" id="faq">
   <div class="container">
     <div class="section-label" style="text-align:center">FAQ</div>
@@ -242,8 +317,8 @@
       <div class="faq-item"><div class="faq-q">What's included in the free trial?</div><div class="faq-a">Full access to all features for 30 days. No credit card required. Add your competitors, get insights, explore battlecards &#8212; everything works from day one.</div></div>
       <div class="faq-item"><div class="faq-q">What data sources do you monitor?</div><div class="faq-a">We track 30+ sources including competitor websites, LinkedIn, Facebook, Instagram, X/Twitter, YouTube, Google Ads, Meta Ads, LinkedIn Ads, G2, Capterra, Trustpilot, Glassdoor, Google News, and more being added regularly.</div></div>
       <div class="faq-item"><div class="faq-q">How is this different from setting up Google Alerts?</div><div class="faq-a">Google Alerts only monitor news mentions. IndustryLens tracks actual changes across websites, ad campaigns, social media strategy shifts, pricing changes, review sentiment, and job postings &#8212; then tells you what to do about it with AI-generated recommendations.</div></div>
-      <div class="faq-item"><div class="faq-q">What's the difference between the tiers?</div><div class="faq-a">The main difference is competitor count: Starter (&#8364;75) = 3 competitors, Growth (&#8364;200) = 7 competitors, Professional (&#8364;250) = 15 competitors. All tiers get the same core features &#8212; AI battlecards, weekly digests, raw data access, and Slack integration.</div></div>
-      <div class="faq-item"><div class="faq-q">Can I cancel anytime?</div><div class="faq-a">Yes. All plans are month-to-month with no annual contracts. Cancel anytime from your dashboard &#8212; no calls, no hoops.</div></div>
+      <div class="faq-item"><div class="faq-q">What's the difference between the tiers?</div><div class="faq-a">Starter (&#8364;59/month) = 3 competitors, 1 seat, 30-day history. Growth (&#8364;149/month) = 7 competitors, 3 seats, 90-day history, priority support. Professional (&#8364;249/month) = 15 competitors, 10 seats, 12-month history. All plans include AI battlecards, cross-competitor insights, weekly email digests, Slack integration, raw data library, and full dashboard access.</div></div>
+      <div class="faq-item"><div class="faq-q">Can I cancel anytime?</div><div class="faq-a">Yes. All plans are monthly subscriptions with no annual contracts. Cancel anytime from your dashboard &#8212; no calls, no hoops.</div></div>
     </div>
   </div>
 </section>
@@ -258,7 +333,7 @@
 <script>
 document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var item=q.parentElement;document.querySelectorAll('.faq-item').forEach(function(i){if(i!==item)i.classList.remove('open')});item.classList.toggle('open')})});
 var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting)entry.target.classList.add('animate')})},{threshold:0.1});
-document.querySelectorAll('.problem-card,.solution-card,.feature-card,.pricing-card').forEach(function(el){observer.observe(el)});
+document.querySelectorAll('.problem-card,.solution-card,.feature-card,.pricing-card').forEach(function(el){el.style.opacity='0';el.style.transform='translateY(30px)';observer.observe(el)});
 </script>
 </body>
 </html>
